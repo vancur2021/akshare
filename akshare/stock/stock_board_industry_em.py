@@ -26,7 +26,7 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
     url = "https://push2.eastmoney.com/api/qt/clist/get"
     params = {
         "pn": "1",
-        "pz": "100",
+        "pz": "20",
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
@@ -101,7 +101,7 @@ def stock_board_industry_name_em() -> pd.DataFrame:
     url = "https://push2.eastmoney.com/api/qt/clist/get"
     params = {
         "pn": "1",
-        "pz": "100",
+        "pz": "20",
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
