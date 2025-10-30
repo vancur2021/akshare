@@ -28,17 +28,20 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15):
     """
     # 添加请求头
     headers = {
+        "Host": "push2.eastmoney.com",
+        "Connection": "keep-alive",
+        "sec-ch-ua-platform": '"macOS"',
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+        "sec-ch-ua": '"Google Chrome";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
+        "sec-ch-ua-mobile": "?0",
         "Accept": "*/*",
+        "Sec-Fetch-Site": "same-site",
+        "Sec-Fetch-Mode": "no-cors",
+        "Sec-Fetch-Dest": "script",
+        "Referer": "https://quote.eastmoney.com/center/gridlist.html",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "zh-TW,zh-CN;q=0.9,zh;q=0.8,en;q=0.7",
-        "Connection": "keep-alive",
-        "Cookie": "qgqp_b_id=ac4fb7bc102d6479cd5c0db9fdd4b641",  # 注意: Cookie 可能需要动态获取
-        "Host": "push2.eastmoney.com",
-        "Referer": "https://quote.eastmoney.com/",
-        "Sec-Fetch-Dest": "script",
-        "Sec-Fetch-Mode": "no-cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+        "Cookie": "qgqp_b_id=ac4fb7bc102d6479cd5db9fdd451e5b4; st_nvi=W4iiSzmJR19on_ZI0o4rk1be4; nid=0735a491c64cc7a7c8e84431e957007a; nid_create_time=1761794418075; gvi=_zVbZZBhF8uVa4kSRNNlI9efb; gvi_create_time=1761794418075; fullscreengg=1; fullscreengg2=1"
     }
     # 复制参数以避免修改原始参数
     params = base_params.copy()

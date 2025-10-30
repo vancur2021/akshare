@@ -25,18 +25,18 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
     """
     url = "https://push2.eastmoney.com/api/qt/clist/get"
     params = {
+        "np": "1",
+        "fltt": "1",
+        "invt": "2",
+        "fs": "m:90+t:2+f:!50",
+        "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
+        "fid": "f3",
         "pn": "1",
         "pz": "20",
         "po": "1",
-        "np": "1",
-        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
-        "fltt": "1",
-        "invt": "2",
-        "fid": "f3",
-        "fs": "m:90 t:2 f:!50",
-        "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "dect": "1",
-        "wbp2u":"|0|0|0|web"
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "|0|0|0|web",
     }
     temp_df = fetch_paginated_data(url, params)
     temp_df.columns = [
@@ -100,18 +100,18 @@ def stock_board_industry_name_em() -> pd.DataFrame:
     """
     url = "https://push2.eastmoney.com/api/qt/clist/get"
     params = {
+        "np": "1",
+        "fltt": "1",
+        "invt": "2",
+        "fs": "m:90+t:2+f:!50",
+        "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
+        "fid": "f3",
         "pn": "1",
         "pz": "20",
         "po": "1",
-        "np": "1",
-        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
-        "fltt": "1",
-        "invt": "2",
-        "fid": "f3",
-        "fs": "m:90 t:2 f:!50",
-        "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "dect": "1",
-        "wbp2u":"|0|0|0|web"
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "|0|0|0|web",
     }
     temp_df = fetch_paginated_data(url, params)
     temp_df.columns = [
