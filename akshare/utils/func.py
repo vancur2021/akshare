@@ -26,10 +26,24 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15):
     :return: 合并后的数据
     :rtype: pandas.DataFrame
     """
+    # 添加请求头
+    headers = {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "zh-TW,zh-CN;q=0.9,zh;q=0.8,en;q=0.7",
+        "Connection": "keep-alive",
+        "Cookie": "qgqp_b_id=ac4fb7bc102d6479cd5c0db9fdd4b641",  # 注意: Cookie 可能需要动态获取
+        "Host": "push2.eastmoney.com",
+        "Referer": "https://quote.eastmoney.com/",
+        "Sec-Fetch-Dest": "script",
+        "Sec-Fetch-Mode": "no-cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    }
     # 复制参数以避免修改原始参数
     params = base_params.copy()
     # 获取第一页数据，用于确定分页信息
-    r = requests.get(url, params=params, timeout=timeout)
+    r = requests.get(url, params=params, headers=headers, timeout=timeout)
     data_json = r.json()
     # 计算分页信息
     per_page_num = len(data_json["data"]["diff"])
@@ -43,7 +57,7 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15):
     # 获取剩余页面数据
     for page in tqdm(range(2, total_page + 1), leave=False):
         params.update({"pn": page})
-        r = requests.get(url, params=params, timeout=timeout)
+        r = requests.get(url, params=params, headers=headers, timeout=timeout)
         data_json = r.json()
         inner_temp_df = pd.DataFrame(data_json["data"]["diff"])
         temp_list.append(inner_temp_df)
