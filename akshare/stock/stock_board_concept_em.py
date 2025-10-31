@@ -10,8 +10,8 @@ import re
 from functools import lru_cache
 
 import pandas as pd
-import requests
-
+from curl_cffi import requests
+from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
 
 
@@ -29,7 +29,7 @@ def __stock_board_concept_name_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -108,7 +108,7 @@ def stock_board_concept_name_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -209,7 +209,7 @@ def stock_board_concept_spot_em(symbol: str = "可燃冰") -> pd.DataFrame:
         fltt="1",
         secid=f"90.{em_code}",
     )
-    r = requests.get(url, params=params)
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
     data_dict = r.json()
     result = pd.DataFrame.from_dict(data_dict["data"], orient="index")
     result.rename(field_map, inplace=True)
@@ -269,7 +269,7 @@ def stock_board_concept_hist_em(
         "smplmt": "10000",
         "lmt": "1000000",
     }
-    r = requests.get(url, params=params)
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
     data_json = r.json()
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["klines"]])
     temp_df.columns = [
@@ -339,7 +339,7 @@ def stock_board_concept_hist_min_em(
             "ndays": "1",
             "secid": f"90.{stock_board_code}",
         }
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
@@ -373,7 +373,7 @@ def stock_board_concept_hist_min_em(
             "end": "20500101",
             "lmt": "1000000",
         }
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
@@ -441,7 +441,7 @@ def stock_board_concept_cons_em(symbol: str = "融资融券") -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",

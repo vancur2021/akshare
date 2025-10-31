@@ -7,8 +7,8 @@ https://quote.eastmoney.com/
 """
 
 import pandas as pd
-import requests
-
+from curl_cffi import requests
+from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
 
 
@@ -25,7 +25,7 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -134,7 +134,7 @@ def stock_sh_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -242,7 +242,7 @@ def stock_sz_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -350,7 +350,7 @@ def stock_bj_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -458,7 +458,7 @@ def stock_new_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "wbp2u": "|0|0|0|web",
@@ -571,7 +571,7 @@ def stock_cy_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "wbp2u": "|0|0|0|web",
@@ -680,7 +680,7 @@ def stock_kc_a_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "wbp2u": "|0|0|0|web",
@@ -852,7 +852,7 @@ def stock_zh_b_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -987,7 +987,7 @@ def stock_zh_a_hist(
         "beg": start_date,
         "end": end_date,
     }
-    r = requests.get(url, params=params, timeout=timeout)
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120", timeout=timeout)
     data_json = r.json()
     if not (data_json["data"] and data_json["data"]["klines"]):
         return pd.DataFrame()
@@ -1076,7 +1076,7 @@ def stock_zh_a_hist_min_em(
             "iscr": "0",
             "secid": f"{market_code}.{symbol}",
         }
-        r = requests.get(url, timeout=15, params=params)
+        r = requests.get(url, headers=eastmoney_headers, impersonate="chrome120", timeout=15, params=params)
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
@@ -1115,7 +1115,7 @@ def stock_zh_a_hist_min_em(
             "beg": "0",
             "end": "20500000",
         }
-        r = requests.get(url, timeout=15, params=params)
+        r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
@@ -1192,7 +1192,7 @@ def stock_zh_a_hist_pre_min_em(
         "iscca": "0",
         "secid": f"{market_code}.{symbol}",
     }
-    r = requests.get(url, timeout=15, params=params)
+    r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
     data_json = r.json()
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["trends"]])
     temp_df.columns = [
@@ -1233,7 +1233,7 @@ def stock_hk_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -1318,7 +1318,7 @@ def stock_hk_main_board_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -1425,7 +1425,7 @@ def stock_hk_hist(
         "end": "20500000",
         "lmt": "1000000",
     }
-    r = requests.get(url, timeout=15, params=params)
+    r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
     data_json = r.json()
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["klines"]])
     if temp_df.empty:
@@ -1499,7 +1499,7 @@ def stock_hk_hist_min_em(
             "ndays": "5",
             "secid": f"116.{symbol}",
         }
-        r = requests.get(url, timeout=15, params=params)
+        r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
@@ -1531,14 +1531,14 @@ def stock_hk_hist_min_em(
         params = {
             "fields1": "f1,f2,f3,f4,f5,f6",
             "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
-            "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+            "ut": "fa5fd1943c7b386f172d6893dbfba10b",
             "klt": period,
             "fqt": adjust_map[adjust],
             "secid": f"116.{symbol}",
             "beg": "0",
             "end": "20500000",
         }
-        r = requests.get(url, timeout=15, params=params)
+        r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
@@ -1601,7 +1601,7 @@ def stock_us_spot_em() -> pd.DataFrame:
         "pz": "100",
         "po": "1",
         "np": "1",
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -1718,7 +1718,7 @@ def stock_us_hist(
         "end": "20500000",
         "lmt": "1000000",
     }
-    r = requests.get(url, timeout=15, params=params)
+    r = requests.get(url, timeout=15, params=params, headers=eastmoney_headers, impersonate="chrome120")
     data_json = r.json()
     if not data_json["data"]["klines"]:
         return pd.DataFrame()
@@ -1778,7 +1778,7 @@ def stock_us_hist_min_em(
         "ndays": "5",
         "secid": f"{symbol.split('.')[0]}.{symbol.split('.')[1]}",
     }
-    r = requests.get(url, params=params, timeout=15)
+    r = requests.get(url, params=params, timeout=15, headers=eastmoney_headers, impersonate="chrome120")
     data_json = r.json()
     if not data_json["data"]["trends"]:
         return pd.DataFrame()

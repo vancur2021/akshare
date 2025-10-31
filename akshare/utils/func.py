@@ -10,7 +10,7 @@ from typing import List, Dict
 import pandas as pd
 # import requests
 from curl_cffi import requests
-
+from akshare.utils.cons import eastmoney_headers
 from akshare.utils.tqdm import get_tqdm
 
 
@@ -27,27 +27,10 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15):
     :return: 合并后的数据
     :rtype: pandas.DataFrame
     """
-    # 添加请求头
-    headers = {
-        "Host": "push2.eastmoney.com",
-        "Connection": "keep-alive",
-        "sec-ch-ua-platform": '"macOS"',
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
-        "sec-ch-ua": '"Google Chrome";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
-        "sec-ch-ua-mobile": "?0",
-        "Accept": "*/*",
-        "Sec-Fetch-Site": "same-site",
-        "Sec-Fetch-Mode": "no-cors",
-        "Sec-Fetch-Dest": "script",
-        "Referer": "https://quote.eastmoney.com/center/gridlist.html",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        "Accept-Language": "zh-TW,zh-CN;q=0.9,zh;q=0.8,en;q=0.7",
-        "Cookie": "qgqp_b_id=ac4fb7bc102d6479cd5db9fdd451e5b4"
-    }
     # 复制参数以避免修改原始参数
     params = base_params.copy()
     # 获取第一页数据，用于确定分页信息
-    r = requests.get(url, params=params, headers=headers, impersonate="chrome120", timeout=timeout)
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120", timeout=timeout)
     data_json = r.json()
     # 计算分页信息
     per_page_num = len(data_json["data"]["diff"])
@@ -61,7 +44,7 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15):
     # 获取剩余页面数据
     for page in tqdm(range(2, total_page + 1), leave=False):
         params.update({"pn": page})
-        r = requests.get(url, params=params, headers=headers, impersonate="chrome120", timeout=timeout)
+        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120", timeout=timeout)
         data_json = r.json()
         inner_temp_df = pd.DataFrame(data_json["data"]["diff"])
         temp_list.append(inner_temp_df)
