@@ -23,5 +23,5 @@ eastmoney_headers = {
     "Referer": "https://quote.eastmoney.com/center/gridlist.html",
     "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "zh-TW,zh-CN;q=0.9,zh;q=0.8,en;q=0.7",
-    "Cookie": "qgqp_b_id=ac4fb7bc102d6479cd5db9fdd451e5b4"
+    "Cookie": "nid=0735a491c64cc7a7c8e84431e957007a"
 }
