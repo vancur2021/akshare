@@ -522,22 +522,22 @@ if __name__ == "__main__":
     stock_board_industry_name_em_df = stock_board_industry_name_em()
     print(stock_board_industry_name_em_df)
 
-    stock_board_industry_spot_em_df = stock_board_industry_spot_em(symbol="小金属")
-    print(stock_board_industry_spot_em_df)
+    # stock_board_industry_spot_em_df = stock_board_industry_spot_em(symbol="电网设备")
+    # print(stock_board_industry_spot_em_df)
 
-    stock_board_industry_hist_em_df = stock_board_industry_hist_em(
-        symbol="小金属",
-        start_date="20211201",
-        end_date="20240222",
-        period="日k",
-        adjust="",
-    )
-    print(stock_board_industry_hist_em_df)
+    # stock_board_industry_hist_em_df = stock_board_industry_hist_em(
+    #     symbol="电网设备",
+    #     start_date="20251201",
+    #     end_date="20260222",
+    #     period="日k",
+    #     adjust="",
+    # )
+    # print(stock_board_industry_hist_em_df)
 
-    stock_board_industry_hist_min_em_df = stock_board_industry_hist_min_em(
-        symbol="小金属", period="1"
-    )
-    print(stock_board_industry_hist_min_em_df)
+    # stock_board_industry_hist_min_em_df = stock_board_industry_hist_min_em(
+    #     symbol="电网设备", period="1"
+    # )
+    # print(stock_board_industry_hist_min_em_df)
 
-    stock_board_industry_cons_em_df = stock_board_industry_cons_em(symbol="互联网服务")
-    print(stock_board_industry_cons_em_df)
+    # stock_board_industry_cons_em_df = stock_board_industry_cons_em(symbol="电网设备")
+    # print(stock_board_industry_cons_em_df)
