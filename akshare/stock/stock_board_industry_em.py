@@ -13,7 +13,9 @@ import pandas as pd
 from curl_cffi import requests
 from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
-
+import time
+import random
+from akshare.utils.cons import generate_eastmoney_headers
 
 @lru_cache()
 def __stock_board_industry_name_em() -> pd.DataFrame:
@@ -24,21 +26,32 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
     :rtype: pandas.DataFrame
     """
     url = "https://push2.eastmoney.com/api/qt/clist/get"
+    # 1. 生成基础动态时间戳
+    current_timestamp = int(time.time() * 1000)
+    
+    # 2. 构造 Parameters
+    # cb 参数为 jQuery 回调，通常由 jQuery+随机数+时间戳构成
+    random_jquery_id = "".join([str(random.randint(0, 9)) for _ in range(21)])
+    cb_value = f"jQuery{random_jquery_id}_{current_timestamp - random.randint(10, 50)}"
+    
     params = {
         "np": "1",
-        "fltt": "2",
+        "fltt": "1",
         "invt": "2",
+        "cb": cb_value,
         "fs": "m:90+s:4+f:!50",
         "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "fid": "f3",
         "pn": "1",
-        "pz": "100",
+        "pz": "20",
         "po": "1",
         "dect": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "wbp2u": "|0|0|0|web",
+        "_": str(current_timestamp)
     }
-    temp_df = fetch_paginated_data(url, params)
+    headers = generate_eastmoney_headers(current_timestamp)
+    temp_df = fetch_paginated_data(url, params, header=headers)
     temp_df.columns = [
         "排名",   
         "-",
@@ -99,21 +112,32 @@ def stock_board_industry_name_em() -> pd.DataFrame:
     :rtype: pandas.DataFrame
     """
     url = "https://push2.eastmoney.com/api/qt/clist/get"
+    # 1. 生成基础动态时间戳
+    current_timestamp = int(time.time() * 1000)
+    
+    # 2. 构造 Parameters
+    # cb 参数为 jQuery 回调，通常由 jQuery+随机数+时间戳构成
+    random_jquery_id = "".join([str(random.randint(0, 9)) for _ in range(21)])
+    cb_value = f"jQuery{random_jquery_id}_{current_timestamp - random.randint(10, 50)}"
+    
     params = {
         "np": "1",
-        "fltt": "2",
+        "fltt": "1",
         "invt": "2",
+        "cb": cb_value,
         "fs": "m:90+s:4+f:!50",
         "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "fid": "f3",
         "pn": "1",
-        "pz": "100",
+        "pz": "20",
         "po": "1",
         "dect": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "wbp2u": "|0|0|0|web",
+        "_": str(current_timestamp)
     }
-    temp_df = fetch_paginated_data(url, params)
+    headers = generate_eastmoney_headers(current_timestamp)
+    temp_df = fetch_paginated_data(url, params, header=headers)
     temp_df.columns = [
         "排名",   
         "-",
