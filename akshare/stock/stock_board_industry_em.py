@@ -91,16 +91,16 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
             "领涨股票-涨跌幅",
         ]
     ]
-    temp_df["最新价"] = pd.to_numeric(temp_df["最新价"], errors="coerce")
-    temp_df["涨跌额"] = pd.to_numeric(temp_df["涨跌额"], errors="coerce")
-    temp_df["涨跌幅"] = pd.to_numeric(temp_df["涨跌幅"], errors="coerce")
-    temp_df["总市值"] = pd.to_numeric(temp_df["总市值"], errors="coerce")
-    temp_df["换手率"] = pd.to_numeric(temp_df["换手率"], errors="coerce")
+    temp_df["最新价"] = pd.to_numeric(temp_df["最新价"], errors="coerce") / 100
+    temp_df["涨跌额"] = pd.to_numeric(temp_df["涨跌额"], errors="coerce") / 100
+    temp_df["涨跌幅"] = pd.to_numeric(temp_df["涨跌幅"], errors="coerce") / 100
+    temp_df["总市值"] = pd.to_numeric(temp_df["总市值"], errors="coerce") / 100
+    temp_df["换手率"] = pd.to_numeric(temp_df["换手率"], errors="coerce") / 100
     temp_df["上涨家数"] = pd.to_numeric(temp_df["上涨家数"], errors="coerce")
     temp_df["下跌家数"] = pd.to_numeric(temp_df["下跌家数"], errors="coerce")
     temp_df["领涨股票-涨跌幅"] = pd.to_numeric(
         temp_df["领涨股票-涨跌幅"], errors="coerce"
-    )
+    ) / 100
     return temp_df
 
 
@@ -177,16 +177,16 @@ def stock_board_industry_name_em() -> pd.DataFrame:
             "领涨股票-涨跌幅",
         ]
     ]
-    temp_df["最新价"] = pd.to_numeric(temp_df["最新价"], errors="coerce")
-    temp_df["涨跌额"] = pd.to_numeric(temp_df["涨跌额"], errors="coerce")
-    temp_df["涨跌幅"] = pd.to_numeric(temp_df["涨跌幅"], errors="coerce")
-    temp_df["总市值"] = pd.to_numeric(temp_df["总市值"], errors="coerce")
-    temp_df["换手率"] = pd.to_numeric(temp_df["换手率"], errors="coerce")
+    temp_df["最新价"] = pd.to_numeric(temp_df["最新价"], errors="coerce") / 100
+    temp_df["涨跌额"] = pd.to_numeric(temp_df["涨跌额"], errors="coerce") / 100
+    temp_df["涨跌幅"] = pd.to_numeric(temp_df["涨跌幅"], errors="coerce") / 100
+    temp_df["总市值"] = pd.to_numeric(temp_df["总市值"], errors="coerce") / 100
+    temp_df["换手率"] = pd.to_numeric(temp_df["换手率"], errors="coerce") / 100
     temp_df["上涨家数"] = pd.to_numeric(temp_df["上涨家数"], errors="coerce")
     temp_df["下跌家数"] = pd.to_numeric(temp_df["下跌家数"], errors="coerce")
     temp_df["领涨股票-涨跌幅"] = pd.to_numeric(
         temp_df["领涨股票-涨跌幅"], errors="coerce"
-    )
+    ) / 100
     return temp_df
 
 
