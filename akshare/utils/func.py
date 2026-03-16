@@ -71,7 +71,7 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15, header:
     tqdm = get_tqdm()
     # 获取剩余页面数据
     for page in tqdm(range(2, total_page + 1), leave=False):
-        time.sleep(random.uniform(0.3, 1.5))
+        time.sleep(random.uniform(0.03, 0.8))
         params.update({"pn": page})
         r = requests.get(url, params=params, headers=header, impersonate="chrome120", timeout=timeout)
         data_json = _parse_jsonp(r.text)
