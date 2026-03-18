@@ -28,3 +28,20 @@ headers = {
 }
 
 eastmoney_headers = generate_eastmoney_headers(int(time.time() * 1000))
+
+# 主流浏览器指纹池，用于 curl_cffi 的 impersonate 参数
+# 仅保留 curl_cffi 稳定支持的指纹版本
+BROWSER_FINGERPRINTS = [
+    "chrome110",
+    "chrome116",
+    "chrome120",
+    "edge101",
+    "safari15_3",
+    "safari15_5",
+]
+
+def get_random_impersonate():
+    """
+    获取随机的浏览器指纹
+    """
+    return random.choice(BROWSER_FINGERPRINTS)

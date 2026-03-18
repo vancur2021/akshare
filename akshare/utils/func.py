@@ -13,7 +13,7 @@ from typing import List, Dict
 import pandas as pd
 # import requests
 from curl_cffi import requests
-from akshare.utils.cons import eastmoney_headers
+from akshare.utils.cons import eastmoney_headers, get_random_impersonate
 from akshare.utils.tqdm import get_tqdm
 
 
@@ -50,7 +50,7 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15, header:
     # 复制参数以避免修改原始参数
     params = base_params.copy()
     # 获取第一页数据，用于确定分页信息
-    r = requests.get(url, params=params, headers=header, impersonate="chrome120", timeout=timeout)
+    r = requests.get(url, params=params, headers=header, impersonate=get_random_impersonate(), timeout=timeout)
     data_json = _parse_jsonp(r.text)
     
     if not data_json or "data" not in data_json or data_json["data"] is None or "diff" not in data_json["data"]:
@@ -73,7 +73,7 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15, header:
     for page in tqdm(range(2, total_page + 1), leave=False):
         time.sleep(random.uniform(0.03, 0.8))
         params.update({"pn": page})
-        r = requests.get(url, params=params, headers=header, impersonate="chrome120", timeout=timeout)
+        r = requests.get(url, params=params, headers=header, impersonate=get_random_impersonate(), timeout=timeout)
         data_json = _parse_jsonp(r.text)
         if data_json and "data" in data_json and data_json["data"] is not None and "diff" in data_json["data"]:
             inner_temp_df = pd.DataFrame(data_json["data"]["diff"])

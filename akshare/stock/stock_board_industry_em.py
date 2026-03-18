@@ -15,7 +15,7 @@ from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
 import time
 import random
-from akshare.utils.cons import generate_eastmoney_headers
+from akshare.utils.cons import generate_eastmoney_headers, get_random_impersonate
 
 @lru_cache()
 def __stock_board_industry_name_em() -> pd.DataFrame:
@@ -229,7 +229,7 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
         fltt="1",
         secid=f"90.{em_code}",
     )
-    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate=get_random_impersonate())
     data_dict = r.json()
     result = pd.DataFrame.from_dict(data_dict["data"], orient="index")
     result.rename(field_map, inplace=True)
@@ -290,7 +290,7 @@ def stock_board_industry_hist_em(
         "smplmt": "10000",
         "lmt": "1000000",
     }
-    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
+    r = requests.get(url, params=params, headers=eastmoney_headers, impersonate=get_random_impersonate())
     data_json = r.json()
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["klines"]])
     temp_df.columns = [
@@ -361,7 +361,7 @@ def stock_board_industry_hist_min_em(
             "ndays": "1",
             "secid": f"90.{em_code}",
         }
-        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
+        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate=get_random_impersonate())
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
@@ -398,7 +398,7 @@ def stock_board_industry_hist_min_em(
             "smplmt": "10000",
             "lmt": "1000000",
         }
-        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate="chrome120")
+        r = requests.get(url, params=params, headers=eastmoney_headers, impersonate=get_random_impersonate())
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
