@@ -49,36 +49,42 @@ def fetch_paginated_data(url: str, base_params: Dict, timeout: int = 15, header:
     """
     # 复制参数以避免修改原始参数
     params = base_params.copy()
-    # 获取第一页数据，用于确定分页信息
-    r = requests.get(url, params=params, headers=header, impersonate=get_random_impersonate(), timeout=timeout)
-    data_json = _parse_jsonp(r.text)
     
-    if not data_json or "data" not in data_json or data_json["data"] is None or "diff" not in data_json["data"]:
-        return pd.DataFrame()
-        
-    diff_data = data_json["data"]["diff"]
-    if not diff_data:
-        return pd.DataFrame()
-        
-    # 计算分页信息
-    per_page_num = len(diff_data)
-    total_page = math.ceil(data_json["data"]["total"] / per_page_num)
+    # 漏洞修复 1：在同一次分页任务中，必须保持指纹一致，避免指纹跳变被风控
+    current_impersonate = get_random_impersonate()
     
-    # 存储所有页面数据
-    temp_list = [pd.DataFrame(diff_data)]
-    
-    # 获取进度条
-    tqdm = get_tqdm()
-    # 获取剩余页面数据
-    for page in tqdm(range(2, total_page + 1), leave=False):
-        time.sleep(random.uniform(0.03, 0.8))
-        params.update({"pn": page})
-        r = requests.get(url, params=params, headers=header, impersonate=get_random_impersonate(), timeout=timeout)
+    # 漏洞修复 2：使用 Session 复用 TCP/TLS 连接，模拟真实浏览器的 Keep-Alive 行为
+    with requests.Session(impersonate=current_impersonate) as session:
+        # 获取第一页数据，用于确定分页信息
+        r = session.get(url, params=params, headers=header, timeout=timeout)
         data_json = _parse_jsonp(r.text)
-        if data_json and "data" in data_json and data_json["data"] is not None and "diff" in data_json["data"]:
-            inner_temp_df = pd.DataFrame(data_json["data"]["diff"])
-            if not inner_temp_df.empty:
-                temp_list.append(inner_temp_df)
+        
+        if not data_json or "data" not in data_json or data_json["data"] is None or "diff" not in data_json["data"]:
+            return pd.DataFrame()
+            
+        diff_data = data_json["data"]["diff"]
+        if not diff_data:
+            return pd.DataFrame()
+            
+        # 计算分页信息
+        per_page_num = len(diff_data)
+        total_page = math.ceil(data_json["data"]["total"] / per_page_num)
+        
+        # 存储所有页面数据
+        temp_list = [pd.DataFrame(diff_data)]
+        
+        # 获取进度条
+        tqdm = get_tqdm()
+        # 获取剩余页面数据
+        for page in tqdm(range(2, total_page + 1), leave=False):
+            time.sleep(random.uniform(0.03, 0.8))
+            params.update({"pn": page})
+            r = session.get(url, params=params, headers=header, timeout=timeout)
+            data_json = _parse_jsonp(r.text)
+            if data_json and "data" in data_json and data_json["data"] is not None and "diff" in data_json["data"]:
+                inner_temp_df = pd.DataFrame(data_json["data"]["diff"])
+                if not inner_temp_df.empty:
+                    temp_list.append(inner_temp_df)
                 
     # 合并所有数据
     if not temp_list:
