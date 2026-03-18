@@ -52,6 +52,8 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
     }
     headers = generate_eastmoney_headers(current_timestamp)
     temp_df = fetch_paginated_data(url, params, header=headers)
+    if temp_df.empty:
+        return pd.DataFrame()
     temp_df.columns = [
         "排名",   
         "-",
@@ -138,6 +140,8 @@ def stock_board_industry_name_em() -> pd.DataFrame:
     }
     headers = generate_eastmoney_headers(current_timestamp)
     temp_df = fetch_paginated_data(url, params, header=headers)
+    if temp_df.empty:
+        return pd.DataFrame()
     temp_df.columns = [
         "排名",   
         "-",
