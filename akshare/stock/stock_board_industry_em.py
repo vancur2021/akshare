@@ -25,7 +25,7 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
     :return: 行业板块-名称
     :rtype: pandas.DataFrame
     """
-    url = "https://push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/weblogin/api/qt/clist/get"
     # 1. 生成基础动态时间戳
     current_timestamp = int(time.time() * 1000)
     
@@ -43,11 +43,11 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
         "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "fid": "f3",
         "pn": "1",
-        "pz": "20",
+        "pz": "70",
         "po": "1",
         "dect": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
-        "wbp2u": "|0|0|0|web",
+        "wbp2u": "5042124652603448|0|1|0|web",
         "_": str(current_timestamp)
     }
     headers = generate_eastmoney_headers(current_timestamp)
@@ -113,7 +113,7 @@ def stock_board_industry_name_em() -> pd.DataFrame:
     :return: 行业板块-名称
     :rtype: pandas.DataFrame
     """
-    url = "https://push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/weblogin/api/qt/clist/get"
     # 1. 生成基础动态时间戳
     current_timestamp = int(time.time() * 1000)
     
@@ -131,11 +131,11 @@ def stock_board_industry_name_em() -> pd.DataFrame:
         "fields": "f12,f13,f14,f1,f2,f4,f3,f152,f20,f8,f104,f105,f128,f140,f141,f207,f208,f209,f136,f222",
         "fid": "f3",
         "pn": "1",
-        "pz": "20",
+        "pz": "70",
         "po": "1",
         "dect": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
-        "wbp2u": "|0|0|0|web",
+        "wbp2u": "5042124652603448|0|1|0|web",
         "_": str(current_timestamp)
     }
     headers = generate_eastmoney_headers(current_timestamp)
@@ -563,7 +563,7 @@ if __name__ == "__main__":
     # print(stock_board_industry_hist_em_df)
 
     # stock_board_industry_hist_min_em_df = stock_board_industry_hist_min_em(
-    #     symbol="电网设备", period="1"
+    #     symbol="BK1027", period="1"
     # )
     # print(stock_board_industry_hist_min_em_df)
 
