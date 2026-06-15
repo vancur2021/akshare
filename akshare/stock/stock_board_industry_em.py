@@ -229,6 +229,7 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
         invt="2",
         fltt="1",
         secid=f"90.{em_code}",
+        ut="fa5fd1943c7b386f172d6893dbfba10b",
         _ = str(current_timestamp)
     )
     headers = generate_eastmoney_headers(current_timestamp)
@@ -285,6 +286,7 @@ def stock_board_industry_hist_em(
     current_timestamp = int(time.time() * 1000)
     params = {
         "secid": f"90.{em_code}",
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
         "fields1": "f1,f2,f3,f4,f5,f6",
         "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
         "klt": period_map[period],
@@ -368,6 +370,7 @@ def stock_board_industry_hist_min_em(
             "iscr": "0",
             "ndays": "1",
             "secid": f"90.{em_code}",
+            "ut": "fa5fd1943c7b386f172d6893dbfba10b",
             "_": str(current_timestamp)
         }
         r = requests.get(url, params=params, headers=headers, impersonate=get_random_impersonate())
@@ -398,6 +401,7 @@ def stock_board_industry_hist_min_em(
         url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
         params = {
             "secid": f"90.{em_code}",
+            "ut": "fa5fd1943c7b386f172d6893dbfba10b",
             "fields1": "f1,f2,f3,f4,f5,f6",
             "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
             "klt": period,
