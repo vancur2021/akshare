@@ -233,6 +233,7 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
         cb=cb_value,
         secid=f"90.{em_code}",
         ut="fa5fd1943c7b386f172d6893dbfba10b",
+        wbp2u="5042124652603448|0|1|0|web",
         _ = str(current_timestamp)
     )
     headers = generate_eastmoney_headers(current_timestamp)
@@ -302,6 +303,7 @@ def stock_board_industry_hist_em(
         "end": end_date,
         "smplmt": "10000",
         "lmt": "1000000",
+        "wbp2u": "5042124652603448|0|1|0|web",
         "_": str(current_timestamp)
     }
     headers = generate_eastmoney_headers(current_timestamp)
@@ -382,6 +384,7 @@ def stock_board_industry_hist_min_em(
             "secid": f"90.{em_code}",
             "ut": "fa5fd1943c7b386f172d6893dbfba10b",
             "cb": cb_value,
+            "wbp2u": "5042124652603448|0|1|0|web",
             "_": str(current_timestamp)
         }
         with requests.Session(impersonate=get_random_impersonate()) as session:
@@ -423,6 +426,7 @@ def stock_board_industry_hist_min_em(
             "end": "20500101",
             "smplmt": "10000",
             "lmt": "1000000",
+            "wbp2u": "5042124652603448|0|1|0|web",
             "_": str(current_timestamp)
         }
         with requests.Session(impersonate=get_random_impersonate()) as session:
