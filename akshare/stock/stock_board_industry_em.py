@@ -12,7 +12,7 @@ from functools import lru_cache
 import pandas as pd
 from curl_cffi import requests
 from akshare.utils.cons import eastmoney_headers
-from akshare.utils.func import fetch_paginated_data
+from akshare.utils.func import fetch_paginated_data, _parse_jsonp
 import time
 import random
 from akshare.utils.cons import generate_eastmoney_headers, get_random_impersonate
@@ -223,11 +223,14 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
         industry_listing = __stock_board_industry_name_em()
         em_code = industry_listing.query("板块名称 == @symbol")["板块代码"].values[0]
     current_timestamp = int(time.time() * 1000)
+    random_jquery_id = "".join([str(random.randint(0, 9)) for _ in range(21)])
+    cb_value = f"jQuery{random_jquery_id}_{current_timestamp - random.randint(10, 50)}"
     params = dict(
         fields=",".join(field_map.keys()),
         mpi="1000",
         invt="2",
         fltt="1",
+        cb=cb_value,
         secid=f"90.{em_code}",
         ut="fa5fd1943c7b386f172d6893dbfba10b",
         _ = str(current_timestamp)
@@ -235,7 +238,7 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
     headers = generate_eastmoney_headers(current_timestamp)
     with requests.Session(impersonate=get_random_impersonate()) as session:
         r = session.get(url, params=params, headers=headers)
-    data_dict = r.json()
+    data_dict = _parse_jsonp(r.text)
     result = pd.DataFrame.from_dict(data_dict["data"], orient="index")
     result.rename(field_map, inplace=True)
     result.reset_index(inplace=True)
@@ -285,9 +288,12 @@ def stock_board_industry_hist_em(
     adjust_map = {"": "0", "qfq": "1", "hfq": "2"}
     url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
     current_timestamp = int(time.time() * 1000)
+    random_jquery_id = "".join([str(random.randint(0, 9)) for _ in range(21)])
+    cb_value = f"jQuery{random_jquery_id}_{current_timestamp - random.randint(10, 50)}"
     params = {
         "secid": f"90.{em_code}",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "cb": cb_value,
         "fields1": "f1,f2,f3,f4,f5,f6",
         "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
         "klt": period_map[period],
@@ -301,7 +307,7 @@ def stock_board_industry_hist_em(
     headers = generate_eastmoney_headers(current_timestamp)
     with requests.Session(impersonate=get_random_impersonate()) as session:
         r = session.get(url, params=params, headers=headers)
-    data_json = r.json()
+    data_json = _parse_jsonp(r.text)
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["klines"]])
     temp_df.columns = [
         "日期",
@@ -363,6 +369,8 @@ def stock_board_industry_hist_min_em(
         industry_listing = __stock_board_industry_name_em()
         em_code = industry_listing.query("板块名称 == @symbol")["板块代码"].values[0]
     current_timestamp = int(time.time() * 1000)
+    random_jquery_id = "".join([str(random.randint(0, 9)) for _ in range(21)])
+    cb_value = f"jQuery{random_jquery_id}_{current_timestamp - random.randint(10, 50)}"
     headers = generate_eastmoney_headers(current_timestamp)
     if period == "1":
         url = "https://push2his.eastmoney.com/api/qt/stock/trends2/get"
@@ -373,11 +381,12 @@ def stock_board_industry_hist_min_em(
             "ndays": "1",
             "secid": f"90.{em_code}",
             "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+            "cb": cb_value,
             "_": str(current_timestamp)
         }
         with requests.Session(impersonate=get_random_impersonate()) as session:
             r = session.get(url, params=params, headers=headers)
-        data_json = r.json()
+        data_json = _parse_jsonp(r.text)
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
         )
@@ -405,6 +414,7 @@ def stock_board_industry_hist_min_em(
         params = {
             "secid": f"90.{em_code}",
             "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+            "cb": cb_value,
             "fields1": "f1,f2,f3,f4,f5,f6",
             "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
             "klt": period,
@@ -417,7 +427,7 @@ def stock_board_industry_hist_min_em(
         }
         with requests.Session(impersonate=get_random_impersonate()) as session:
             r = session.get(url, params=params, headers=headers)
-        data_json = r.json()
+        data_json = _parse_jsonp(r.text)
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
         )
