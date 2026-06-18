@@ -23,13 +23,16 @@ def __stock_board_concept_name_em() -> pd.DataFrame:
     :return: 概念板块-名称
     :rtype: pandas.DataFrame
     """
-    url = "https://79.push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/weblogin/api/qt/clist/get"
+    current_timestamp = int(time.time() * 1000)
     params = {
         "pn": "1",
         "pz": "100",
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "5042124652603448|0|1|0|web",
+        "_": str(current_timestamp),
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -435,13 +438,16 @@ def stock_board_concept_cons_em(symbol: str = "融资融券") -> pd.DataFrame:
         stock_board_code = stock_board_concept_em_map[
             stock_board_concept_em_map["板块名称"] == symbol
         ]["板块代码"].values[0]
-    url = "https://29.push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/weblogin/api/qt/clist/get"
+    current_timestamp = int(time.time() * 1000)
     params = {
         "pn": "1",
         "pz": "100",
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "5042124652603448|0|1|0|web",
+        "_": str(current_timestamp),
         "fltt": "2",
         "invt": "2",
         "fid": "f12",

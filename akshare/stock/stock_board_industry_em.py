@@ -478,13 +478,14 @@ def stock_board_industry_cons_em(symbol: str = "小金属") -> pd.DataFrame:
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "5042124652603448|0|1|0|web",
+        "_": str(current_timestamp),
         "fltt": "2",
         "invt": "2",
         "fid": "f3",
         "fs": f"b:{stock_board_code} f:!50",
         "fields": "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f12,f13,f14,f15,f16,f17,f18,f20,f21,"
-        "f23,f24,f25,f22,f11,f62,f128,f136,f115,f152,f45",
-        "_": str(current_timestamp),
+        "f23,f24,f25,f22,f11,f62,f128,f136,f115,f152,f45"
     }
     headers = generate_eastmoney_headers(current_timestamp)
     temp_df = fetch_paginated_data(url, params, header=headers)

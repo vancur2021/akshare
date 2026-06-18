@@ -10,7 +10,7 @@ import pandas as pd
 from curl_cffi import requests
 from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
-
+import time
 
 def stock_zh_a_spot_em() -> pd.DataFrame:
     """
@@ -19,13 +19,16 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
     :return: 实时行情
     :rtype: pandas.DataFrame
     """
-    url = "https://82.push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/weblogin/api/qt/clist/get"
+    current_timestamp = int(time.time() * 1000)
     params = {
         "pn": "1",
         "pz": "100",
         "po": "1",
         "np": "1",
         "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "wbp2u": "5042124652603448|0|1|0|web",
+        "_": str(current_timestamp),
         "fltt": "2",
         "invt": "2",
         "fid": "f12",
@@ -1810,6 +1813,8 @@ def stock_us_hist_min_em(
 if __name__ == "__main__":
     stock_zh_a_spot_em_df = stock_zh_a_spot_em()
     print(stock_zh_a_spot_em_df)
+
+    exit
 
     stock_sh_a_spot_em_df = stock_sh_a_spot_em()
     print(stock_sh_a_spot_em_df)
