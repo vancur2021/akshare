@@ -15,7 +15,6 @@ from akshare.utils.cons import eastmoney_headers
 from akshare.utils.func import fetch_paginated_data
 import time
 import random
-from akshare.utils.cons import generate_eastmoney_headers, get_random_impersonate
 
 @lru_cache()
 def __stock_board_industry_name_em() -> pd.DataFrame:
@@ -50,7 +49,10 @@ def __stock_board_industry_name_em() -> pd.DataFrame:
         "wbp2u": "5042124652603448|0|1|0|web",
         "_": str(current_timestamp)
     }
-    headers = generate_eastmoney_headers(current_timestamp)
+    headers = {
+        "Accept": "*/*",
+        "Referer": "https://quote.eastmoney.com/center/gridlist.html",
+    }
     temp_df = fetch_paginated_data(url, params, header=headers)
     if temp_df.empty:
         return pd.DataFrame()
@@ -138,7 +140,10 @@ def stock_board_industry_name_em() -> pd.DataFrame:
         "wbp2u": "5042124652603448|0|1|0|web",
         "_": str(current_timestamp)
     }
-    headers = generate_eastmoney_headers(current_timestamp)
+    headers = {
+        "Accept": "*/*",
+        "Referer": "https://quote.eastmoney.com/center/gridlist.html",
+    }
     temp_df = fetch_paginated_data(url, params, header=headers)
     if temp_df.empty:
         return pd.DataFrame()
@@ -231,8 +236,11 @@ def stock_board_industry_spot_em(symbol: str = "小金属") -> pd.DataFrame:
         secid=f"90.{em_code}",
         _ = str(current_timestamp)
     )
-    headers = generate_eastmoney_headers(current_timestamp)
-    r = requests.get(url, params=params, headers=headers, impersonate=get_random_impersonate())
+    headers = {
+        "Accept": "*/*",
+        "Referer": f"https://quote.eastmoney.com/bk/90.{em_code}.html",
+    }
+    r = requests.get(url, params=params, headers=headers, impersonate="chrome")
     data_dict = r.json()
     result = pd.DataFrame.from_dict(data_dict["data"], orient="index")
     result.rename(field_map, inplace=True)
@@ -295,8 +303,11 @@ def stock_board_industry_hist_em(
         "lmt": "1000000",
         "_": str(current_timestamp)
     }
-    headers = generate_eastmoney_headers(current_timestamp)
-    r = requests.get(url, params=params, headers=headers, impersonate=get_random_impersonate())
+    headers = {
+        "Accept": "*/*",
+        "Referer": f"https://quote.eastmoney.com/bk/90.{em_code}.html",
+    }
+    r = requests.get(url, params=params, headers=headers, impersonate="chrome")
     data_json = r.json()
     temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["klines"]])
     temp_df.columns = [
@@ -359,7 +370,10 @@ def stock_board_industry_hist_min_em(
         industry_listing = __stock_board_industry_name_em()
         em_code = industry_listing.query("板块名称 == @symbol")["板块代码"].values[0]
     current_timestamp = int(time.time() * 1000)
-    headers = generate_eastmoney_headers(current_timestamp)
+    headers = {
+        "Accept": "*/*",
+        "Referer": f"https://quote.eastmoney.com/bk/90.{em_code}.html",
+    }
     if period == "1":
         url = "https://push2his.eastmoney.com/api/qt/stock/trends2/get"
         params = {
@@ -370,7 +384,7 @@ def stock_board_industry_hist_min_em(
             "secid": f"90.{em_code}",
             "_": str(current_timestamp)
         }
-        r = requests.get(url, params=params, headers=headers, impersonate=get_random_impersonate())
+        r = requests.get(url, params=params, headers=headers, impersonate="chrome")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["trends"]]
@@ -408,7 +422,7 @@ def stock_board_industry_hist_min_em(
             "lmt": "1000000",
             "_": str(current_timestamp)
         }
-        r = requests.get(url, params=params, headers=headers, impersonate=get_random_impersonate())
+        r = requests.get(url, params=params, headers=headers, impersonate="chrome")
         data_json = r.json()
         temp_df = pd.DataFrame(
             [item.split(",") for item in data_json["data"]["klines"]]
@@ -487,7 +501,10 @@ def stock_board_industry_cons_em(symbol: str = "小金属") -> pd.DataFrame:
         "fields": "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f12,f13,f14,f15,f16,f17,f18,f20,f21,"
         "f23,f24,f25,f22,f11,f62,f128,f136,f115,f152,f45"
     }
-    headers = generate_eastmoney_headers(current_timestamp)
+    headers = {
+        "Accept": "*/*",
+        "Referer": f"https://data.eastmoney.com/bkzj/{stock_board_code}.html",
+    }
     temp_df = fetch_paginated_data(url, params, header=headers)
     temp_df.columns = [
         "序号",
